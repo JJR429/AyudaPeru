@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="AyudaPeru es una web que brinda información de familias que necesitan recursos básicos en Cusco y todo el Perú.">
+  <meta name="author" content="JJR429">
+  <link rel="icon" type="image/png" href="https://image.flaticon.com/icons/svg/1929/1929660.svg">
+
+  <title>AyudaPeru - Mapa de familias que necesitan soporte en tiempos de Coronavirus</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon">
+          <!-- <i class="fas fa-laugh-wink"></i> -->
+          <img src="https://image.flaticon.com/icons/svg/1929/1929660.svg" width="50px" alt="Icon Ayuda Perú">
+        </div>
+        <div class="sidebar-brand-text mx-3">Ayuda<sup>Perú</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="/">
+          <i class="fas fa-fw fa-map-marker-alt"></i>
+          <span>Ver Mapa</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Ayuda
+      </div>
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="#!" data-toggle="modal" data-target="#necesitoAyudarModal">
+          <i class="fas fa-fw fa-people-carry"></i>
+          <span>Necesito Ayuda</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#!" data-toggle="modal" data-target="#quieroAyudarModal">
+          <i class="fas fa-fw fa-hands-helping"></i>
+          <span>Quiero Ayudar</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Acerca
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-copyright"></i>
+          <span>AyudaPeru.net</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" data-toggle="modal" data-target="#nosotrosModal" href="#!">Nosotros</a>
+            <a class="collapse-item" href="register.html">Facebook</a>
+            <a class="collapse-item" href="forgot-password.html">Instagram</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="#!" data-toggle="modal" data-target="#soporteModal">
+          <i class="fas fa-fw fa-headset"></i>
+          <span>Soporte</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="z-index: 99;">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" id="search_place" class="form-control bg-light border-0 small" placeholder="Buscar..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button onclick="searchPlace()" class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+        </div>
+
+          <div class="sidebar-brand-icon">
+            <!-- <i class="fas fa-laugh-wink"></i> -->
+            <img src="https://image.flaticon.com/icons/svg/1929/1929660.svg" width="50px" alt="Icon Ayuda Perú">
+          </div>
+          <div class="sidebar-brand-text mx-3">Ayuda<sup>Perú</sup></div>
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <div class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" id="search_place" class="form-control bg-light border-0 small" placeholder="Buscar Lugar..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button onclick="searchPlace()" class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item no-arrow">
+                <a class="nav-link text-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fab fa-facebook fa-fw"></i>
+                </a>
+              </li>
+              <li class="nav-item no-arrow">
+                <a class="nav-link text-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="mapa">
+
+            <style>
+                .coordinates {
+                background: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                position: absolute;
+                bottom: 40px;
+                left: 10px;
+                padding: 5px 10px;
+                margin: 0;
+                font-size: 11px;
+                line-height: 18px;
+                border-radius: 3px;
+                display: none;
+                }
+                </style>
+                 
+                <div id="map"></div>
+                <pre id="coordinates" class="coordinates"></pre>
+                 
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Capp Studios Dev by JJR429</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+
+    <!-- Necesito Ayuda Modal-->
+    <div class="modal fade" id="necesitoAyudarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-primary" id="exampleModalLabel">Bienvenido a AyudaPeru.net<br>Recuerda que estamos contigo <i class="fas fa-heart text-danger"></i>.</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>Para recibir ayuda, necesitamos recibir información necesaria para que personas que quieran ayudar te contácten.</p>
+                <hr>
+                <div class="user">
+                    <div class="form-group">
+                        <label for="mi_direccion">Tu direción (Pon tu ciudad) *. Cusco, Lima, Arequipa, etc.</label>
+                    <input type="text" class="form-control form-control-user" id="mi_direccion" placeholder="Región, provincia o distrito">
+                    </div>
+                    <a href="#" id="btnBuscar" class="btn btn-primary btn-user btn-block">
+                        Buscar lugar
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Quiero Ayudar Modal-->
+    <div class="modal fade" id="quieroAyudarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">¿Quieres ayudar?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>En AyudaPeru.net, ayudar es fácil, sigue estos pasos:</p>
+                <p>1. Buscar en el mapa si hay personas cerca donde vives que necesiten ayuda.</p> 
+                <p>2. Contáctate con esa persona, para pedir más detalles y saber como ayudarle.</p>
+                <p>3. AYUDA, llévale los productos de primera necesidad que requiere.</p>
+                <p>4. Cuentanos que ya ayudaste esa famialia, asi otros personas podrán ayudar más personas.</p>
+                <a href="/" class="btn btn-success">Ir al Mapa</a>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" type="button" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  <!-- Soporte Modal-->
+  <div class="modal fade" id="soporteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Soporte Ayuda Perú</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>¿En qué te podemos ayudar?</p>
+            <p>Puedes buscar en el mapa familias que necesitan ayuda.</p>
+            <p>Si quieres enviar ayuda, contáctanos.</p>
+            <hr>
+            <p>Si no resolvimos tus dudas, contáctanos por nuestras redes sociales.</p>
+            <ul>
+                <li><a href="#!"><i class="fab fa-facebook"></i> Facebook</a></li>
+                <li><a href="#!"><i class="fab fa-instagram"></i> Instagram</a></li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="button" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Nosotros Modal-->
+  <div class="modal fade" id="nosotrosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Acerca de Ayuda Perú</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>AyudaPeru.net es una plataforma que ayuda a familias en riesgo a tener ayuda de personas de buen corazón, nosotros brindamos una plataforma donde las familias puede registrarse pidiendo ayuda, luego una persona de buen corazón que quiere ayudar, podrá buscar en AyudaPeru.net personas que están pasandoló mal en tiempos de Coronavirus.</p> 
+            <p>Si no resolvimos tus dudas, contáctanos por nuestras redes sociales.</p>
+            <ul>
+                <li><a href="#!"><i class="fab fa-facebook"></i> Facebook</a></li>
+                <li><a href="#!"><i class="fab fa-instagram"></i> Instagram</a></li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="button" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- registrarAyudaModal Modal-->
+  <div class="modal fade" id="registrarAyudaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Gracias por tu ayuda.</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form bt-2" id="response">
+
+                 <p>Si ayudaste a esta familia, queremos saber más detalles.</p> 
+
+                <div class="form-group">
+                    <label>Tu nombre</label>
+                    <input id="nombre_ayudador" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Tu correo electrónico</label>
+                    <input id="email_ayudador" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Tu número de celular</label>
+                    <input id="celular_ayudador" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>DNI de la persona/familia que ayudaste <br>*<span class="text-warning">Debe ser el mismo con que se registráron en AyudaPeru.net</span></label>
+                    <input id="dni_familia" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Indicanos detalles de la forma en que ayudaste esta familia.</label>
+                    <textarea id="mensaje_ayudador" class="form-control"></textarea>
+                </div>
+                
+                <div class="form-group">
+                <label>
+                    <input type="checkbox" checked class="mr-2">Esta información es verídica.</label><br>
+                    <small>*Usted da fe que la familia recibio ayuda satisfactoriamente.</small>
+                    <br>
+                    <p id="error_ayudador" class="text-danger"></p>
+                </div>
+                <button onclick="saveAyuda()" class="btn btn-primary">Registrar Ayuda</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="button" data-dismiss="modal" onclick="realodPage()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="assets/js/sb-admin-2.min.js"></script>
+
+  <script>
+      $(document).on('input', '#mi_direccion', function(){
+        $("#btnBuscar").attr("href", "necesito-ayuda/?lugar="+document.querySelector('#mi_direccion').value)
+    });
+
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiampyNDI5IiwiYSI6ImNqMmFqY3VrODAwN2YzMmx2NHp0d3E2ZzkifQ.tTPOupHZ6JmSASSo333Frg';
+
+    
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v10',
+        center: [-71.9785356, -13.5170887],
+        zoom: 5
+    });
+    
+
+  // Evento on load
+  document.addEventListener('DOMContentLoaded', function() {
+        // searchPlace();
+        //call casos to set icons
+        renderData();
+    });
+
+    $('#search_place').bind("enterKey",function(e){
+        searchPlace();
+    });
+    $('#search_place').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            $(this).trigger("enterKey");
+        }
+    });
+
+
+    async function searchPlace() {
+        let place = document.querySelector('#search_place').value;
+        if(place == '') {
+            place = 'cusco'
+        }
+        const response = await fetch('https://nominatim.openstreetmap.org/search/'+place+'?format=json&addressdetails=1&limit=1&polygon_svg=1');
+        let data = await response.json();
+        // console.log('data: ' + data)
+        lat = data[0].lat;
+        lon = data[0].lon;
+        flyToPlace(lon, lat);
+    }
+
+    function flyToPlace(lon, lat){
+        map.flyTo({
+        center: [lon,lat],
+        zoom: 9,
+        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+        });
+    }
+
+    async function renderData() {
+      var geojson = await getData();
+      console.log(geojson);
+      // add markers to map
+      geojson.features.forEach(function(marker) {
+          // create a DOM element for the marker
+          var el = document.createElement('div');
+          if(marker.properties.estado == 1){
+            el.className = 'marker-not-need';
+            el.style.opacity = 1;
+            el.style.width = '50px';
+                el.style.height = '50px';
+            var message = '<h5 class="title-h2">'+marker.properties.nombres+'</h5>'+'<span class="text-success">' + 'Hola, Gracias por tu solidadridad, ya estoy recibiendo ayuda, pudes buscar más personas en el mapa.'+ '</span>';
+          } else {
+            el.className = 'marker-need';
+            el.style.opacity = 1;
+            el.style.width = '50px';
+                el.style.height = '50px';
+            var message = '<h5 class="title-h2">'+marker.properties.nombres+'</h5>'+'<span>' + marker.properties.descripcion + '</span><br>' + 'Fecha Publicación:  <span class="text-recovered">' + marker.properties.fecha_publicacion+'</span><br>' + 'Celular:  <span class="text-deaths">' + marker.properties.celular + '<br>'+'<a href="tel:'+marker.properties.celular+'" class="btn btn-success btn-xs btn-block mb-2 mt-2">Llamar</a>'+
+                '<a href="#!" class="btn btn-warning btn-xs btn-block mb-2 mt-2" data-toggle="modal" data-target="#registrarAyudaModal">Marcar como ayudado.</a>';
+          }
+
+          var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(message);
+
+          // add marker to map
+          new mapboxgl.Marker(el)
+              .setLngLat(marker.geometry.coordinates)
+              .setPopup(popup) // sets a popup on this marker
+              .addTo(map);
+      });
+    }
+
+    async function getData() {
+        const response = await fetch('http://localhost/ayudaperu/api/actions/data.json.php')
+        const data = await response.json()
+        return data
+    }
+    
+    async function saveAyuda() {
+        if(verifyInputs()){
+            let nombres = document.querySelector('#nombre_ayudador').value
+            let email = document.querySelector('#email_ayudador').value
+            let celular = document.querySelector('#celular_ayudador').value
+            let dni_familia = document.querySelector('#dni_familia').value
+            let mensaje = document.querySelector('#mensaje_ayudador').value;
+            // isset($_POST['nombres']) && isset($_POST['email']) && isset($_POST['celular']) && isset($_POST['dni_familia']) && isset($_POST['mensaje']
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/ayudaperu/api/actions/ayudado.php",
+                data: { nombres: nombres, email: email, celular: celular, dni_familia: dni_familia, mensaje: mensaje},
+                success: function(data){
+                    console.log(data);
+                    if(!data.error){
+                      document.querySelector('#response').innerHTML = '<h5 class="text-success">Gracias por tu ayuda '+nombres+', de parte de AyudaPeru.net te lo agradecemos grandemente.</h5>';
+                    
+                    } else {
+                        if(data.code == 3 ) {
+                            document.querySelector('#error_ayudador').innerHTML = '<h6 class="text-danger">El DNI de la familia que ingresaste, No Existe!</h6>';
+                        } else {
+                            document.querySelector('#error_ayudador').innerHTML = '<span class="text-danger">Tu solicitud no se pudo guardar, intente más tarde.</span>';
+                        }
+
+                    }
+                }
+
+            });
+        }
+
+    }
+
+
+    function verifyInputs(){
+        if(!validateNombre(document.querySelector('#nombre_ayudador').value)){
+            document.querySelector('#nombre_ayudador').focus();
+            document.querySelector('#error_ayudador').innerHTML = 'Ingres nombres completos.';
+            return false;
+        }
+        if(!validateEmail(document.querySelector('#email_ayudador').value)){
+            document.querySelector('#email_ayudador').focus();
+            document.querySelector('#error_ayudador').innerHTML = 'Ingres email válido';
+            return false;
+        }
+        if(!validateCelular(document.querySelector('#celular_ayudador').value)){
+            document.querySelector('#celular_ayudador').focus();
+            document.querySelector('#error_ayudador').innerHTML = 'Ingres un número de celular válido.';
+            return false;
+        }
+        if(!validateDNI(document.querySelector('#dni_familia').value)){
+            document.querySelector('#dni_familia').focus();
+            document.querySelector('#error_ayudador').innerHTML = 'Ingres un DNI válido.';
+            return false;
+        }
+        if(!validateMensaje(document.querySelector('#mensaje_ayudador').value)){
+            document.querySelector('#mensaje_ayudador').focus();
+            document.querySelector('#error_ayudador').innerHTML = 'Ingre una breve descripción de la ayuda.';
+            return false;
+        }
+        return true;
+    }
+
+
+    function validateEmail (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      return re.test(email);
+    }
+
+    function validateCelular(celular){
+        return celular.length > 8 ? true : false;
+    }
+    function validateDNI (dni) {
+        return dni.length > 7 ? true : false;
+    }
+    function validateNombre (nombre) {
+        return nombre.length > 4 ? true : false;
+    }
+    function validateMensaje (text) {
+        return text.length > 10 ? true : false;
+    }
+    function validateSelects (value) {
+        return value != 0 ? true : false;
+    }
+    function validateFile (file) {
+        return file.length > 0 ? true : false;
+    }
+
+
+    function realodPage(){
+        location.reload();
+    }
+
+
+  </script>
+
+  <style>
+    .marker-need {
+        display: block;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        background-image: url('https://image.flaticon.com/icons/svg/1029/1029132.svg');
+        background-position: center;
+        background-size: cover;
+    }
+    .marker-not-need {
+        display: block;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        background-image: url('https://image.flaticon.com/icons/svg/666/666221.svg');
+        background-position: center;
+        background-size: cover;
+    }
+  </style>
+
+</body>
+
+</html>

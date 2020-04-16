@@ -1,0 +1,106 @@
+.marker {
+    display: block;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+.title-h2 {
+  font-size: 18px;
+  display: block;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #e2e2e2;
+}
+.text-confirmed {
+    color: #f0ad4e;
+    font-size: 15px;
+    font-weight: 600;
+}
+.text-deaths {
+    color: #d9534f;
+    font-size: 15px;
+    font-weight: 600;
+}
+.text-recovered {
+    color: #5cb85c;
+    font-size: 15px;
+    font-weight: 600;
+}
+.map-overlay {
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  position: absolute;
+  width: 15%;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+}
+.map-overlay-regions {
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  position: absolute;
+  width: 20%;
+  top: 0;
+  left: 0;
+  padding: 10px;
+}
+.map-overlay h2 {
+  font-size: 20px;
+  display: block;
+  margin: 5px 0px;
+}
+.map-overlay .map-overlay-inner {
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.map-overlay-regions .map-overlay-inner {
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.map-overlay-regions ul {
+  list-style-type: none;
+  margin-left: -30px;
+}
+ul .region {
+  display: flex;
+  justify-content: space-between;
+}
+.map-overlay-charts {
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  position: absolute;
+  width: 40%;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+}
+.map-overlay-charts .map-overlay-inner {
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.detalle-casos{
+  display: flex;
+  justify-content: space-between;
+}
+@media only screen and (max-width: 768px) {
+  .map-overlay{
+    width: 40%;
+  }
+  .map-overlay h2 {
+    font-size: 15px;
+  }
+  .map-overlay-regions {
+    width: 40%;
+  }
+  .map-overlay-charts {
+    width: 50%;
+  }
+}
